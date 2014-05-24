@@ -11,7 +11,7 @@ TodoMVC.module('Todos', function (Todos, App, Backbone) {
 
     initialize: function () {
       if (this.isNew()) {
-        this.set('created', Data.now());
+        this.set('created', Date.now());
       }
     },
 
@@ -30,7 +30,7 @@ TodoMVC.module('Todos', function (Todos, App, Backbone) {
 
     localStorage: new Backbone.LocalStorage('todos-backbone-marionette'),
 
-    getComplated: function () {
+    getCompleted: function () {
       return this.filter(this._isCompleted);
     },
 

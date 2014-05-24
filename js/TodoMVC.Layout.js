@@ -1,8 +1,8 @@
 'use strict'
 
-TodoMVC.module('Layout', function (Layout, App, Backbone) {
+TodoMVC.module('Layout', function (Layout, App, Backbone, Marionette) {
   // Layout Header View
-  Layout.Header = Backbone.Marionette.ItemView.extend({
+  Layout.Header = Marionette.ItemView.extend({
     template: '#template-header',
 
     // UI bindings create cached attributes that
@@ -19,7 +19,7 @@ TodoMVC.module('Layout', function (Layout, App, Backbone) {
       var ENTER_KEY = 13,
       todoText = this.ui.input.val().trim();
 
-      if (e.which === ENTERKEY && todoText) {
+      if (e.which === ENTER_KEY && todoText) {
         this.collection.create({
           title: todoText
         });
@@ -29,7 +29,7 @@ TodoMVC.module('Layout', function (Layout, App, Backbone) {
   });
 
   // Layout Footer View
-  Layout.Footer = Backbone.Marionette.ItemView.extend({
+  Layout.Footer = Marionette.ItemView.extend({
     template: '#template-footer',
 
     // UI bindings create cached attributes that
@@ -68,6 +68,7 @@ TodoMVC.module('Layout', function (Layout, App, Backbone) {
     },
 
     onRender: function () {
+      // if this.collection.length > 0, footer DOM Element is shown.
       this.$el.parent().toggle(this.collection.length > 0);
       this.updateFilterSelection();
     },

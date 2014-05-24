@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-TodoMVC.module('TodosList.Views', function (Views, App, Backbone, Marionette, $) {
+TodoMVC.module('TodoList.Views', function (Views, App, Backbone, Marionette, $) {
   // Todo List Item View
   //
   // Display an individual todo item, and respond to changes
@@ -16,9 +16,9 @@ TodoMVC.module('TodosList.Views', function (Views, App, Backbone, Marionette, $)
     events: {
       'click .destroy': 'destroy',
       'dblclick label': 'onEditClick',
-      'keydown .edit': 'onEditKeyPress',
       // The difference with the blur is that it is possible
       // to detect the occurrence of a focus event of the child element if focusout
+      'keydown .edit': 'onEditKeypress',
       'focusout .edit': 'onEditFocusout',
       'click .toggle': 'toggle'
     },
@@ -61,12 +61,12 @@ TodoMVC.module('TodosList.Views', function (Views, App, Backbone, Marionette, $)
       }
     },
 
-    onEditKeyPress: function () {
+    onEditKeypress: function (e) {
       var ENTER_KEY = 13,
           ESC_KEY = 27;
 
       if (e.which === ENTER_KEY) {
-        this.onEditFocusout()
+        this.onEditFocusout();
         return;
       }
 
@@ -81,8 +81,8 @@ TodoMVC.module('TodosList.Views', function (Views, App, Backbone, Marionette, $)
   //
   // Controls the rendering of the list of items, including the
   // filtering of activs vs completed items for display.
-  Views.ListView = Backbone.Marionette.CompositeView.extend({
-    template: '#template-todoListCompositeView'
+  Views.ListView = Marionette.CompositeView.extend({
+    template: '#template-todoListCompositeView',
     itemView: Views.ItemView,
     itemViewContainer: '#todo-list',
 
@@ -104,13 +104,16 @@ TodoMVC.module('TodosList.Views', function (Views, App, Backbone, Marionette, $)
 
     update: function () {
       function reduceCompleted(left, right) {
+        // If all todos are completed, return true
+        // otherwise return false
         return left && right.get('completed');
       }
 
+      // Init value is true
       var allCompleted = this.collection.reduce(reduceCompleted, true);
 
       this.ui.toggle.prop('checked', allCompleted);
-      this.$el.parent().toggle(!this.collection.length);
+      this.$el.parent().toggle(!!this.collection.length);
     },
 
     onToggleAllClick: function (e) {
