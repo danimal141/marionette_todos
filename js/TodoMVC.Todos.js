@@ -1,6 +1,6 @@
 'use strict'
 
-TodoMVC.module('Todos', function(Todos, App, Backbone){
+TodoMVC.module('Todos', function (Todos, App, Backbone) {
   // Todo Model
   Todos.Todo = Backbone.Model.extend({
     defaults: {
@@ -9,17 +9,17 @@ TodoMVC.module('Todos', function(Todos, App, Backbone){
       created: 0
     },
 
-    initialize: function(){
-      if(this.isNew()){
+    initialize: function () {
+      if (this.isNew()) {
         this.set('created', Data.now());
       }
     },
 
-    toggle: function(){
+    toggle: function () {
       return this.set('completed', !this.isCompleted());
     },
 
-    isCompleted: function(){
+    isCompleted: function () {
       return this.get('completed');
     }
   });
@@ -30,19 +30,19 @@ TodoMVC.module('Todos', function(Todos, App, Backbone){
 
     localStorage: new Backbone.LocalStorage('todos-backbone-marionette'),
 
-    getComplated: function(){
+    getComplated: function () {
       return this.filter(this._isCompleted);
     },
 
-    getActive: function(){
+    getActive: function () {
       return this.reject(this._isCompleted);
     },
 
-    comparator: function(todo){
+    comparator: function (todo) {
       return todo.get('created');
     },
 
-    _isCompleted: function(todo){
+    _isCompleted: function (todo) {
       return todo.isCompleted();
     }
   });

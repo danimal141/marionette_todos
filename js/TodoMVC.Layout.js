@@ -1,6 +1,6 @@
 'use strict'
 
-TodoMVC.module('Layout', function(Layout, App, Backbone){
+TodoMVC.module('Layout', function (Layout, App, Backbone) {
   // Layout Header View
   Layout.Header = Backbone.Marionette.ItemView.extend({
     template: '#template-header',
@@ -15,11 +15,11 @@ TodoMVC.module('Layout', function(Layout, App, Backbone){
       'keypress #new-todo': 'onInputKeypress'
     },
 
-    onInputKeypress: function(e){
+    onInputKeypress: function (e) {
       var ENTER_KEY = 13,
       todoText = this.ui.input.val().trim();
 
-      if(e.which === ENTERKEY && todoText){
+      if (e.which === ENTERKEY && todoText) {
         this.collection.create({
           title: todoText
         });
@@ -47,16 +47,16 @@ TodoMVC.module('Layout', function(Layout, App, Backbone){
     },
 
     templateHelpers: {
-      activeCountLabel: function(){
+      activeCountLabel: function () {
         return (this.activeCount === 1 ? 'item' : 'items') + 'left';
       }
     },
 
-    initialize: function(){
+    initialize: function () {
       this.listenTo(App.vent, 'todoList:filter', this.updateFilterSelection, this);
     },
 
-    serializeData: function(){
+    serializeData: function () {
       var active = this.collection.getActive().length;
       var total = this.collection.length;
 
@@ -67,21 +67,21 @@ TodoMVC.module('Layout', function(Layout, App, Backbone){
       };
     },
 
-    onRender: function(){
+    onRender: function () {
       this.$el.parent().toggle(this.collection.length > 0);
       this.updateFilterSelection();
     },
 
-    updateFilterSelection: function(){
+    updateFilterSelection: function () {
       this.ui.filters
               .removeClass('selected')
               .filter('[href="' + (location.hash || '#') + '"]')
               .addClass('selected');
     },
 
-    onClearClick: function(){
+    onClearClick: function () {
       var completed = this.collection.getCompleted();
-      completed.forEach(function(todo){
+      completed.forEach(function (todo) {
         todo.destroy()
       });
     }
